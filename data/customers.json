@@ -1,3 +1,22 @@
 [
-    
+    {
+        "maKhachHang": "KH1749544891",
+        "username": "Bao",
+        "password_hash": "$2y$10$ko85tVA650aDgotlVbnEKO8QIcUJpWXX0BR7mfBr0IgQLSNpBMXm6",
+        "ten": "Hoàng Nguyên Bảo",
+        "tencongty": "Hust",
+        "chucvu": "Nhân viên",
+        "sdt": "123456789",
+        "diaChi": "Hà Nội"
+    },
+    {
+        "maKhachHang": "KH1749550249",
+        "username": "dinh",
+        "password_hash": "$2y$10$zYGcjKaClLSxoEprNxMWH.6p2w8VisHEIA.riW2C5wIwz6WOF2aGa",
+        "ten": "Kiều Tuấn Định",
+        "tencongty": "CP Dược phẩm Bách Khoa",
+        "chucvu": "IT",
+        "sdt": "0394705872",
+        "diaChi": "Bách Khoa, Hà Nội"
+    }
 ]

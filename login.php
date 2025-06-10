@@ -27,11 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $login_success = true;
             break;
         }
-    }
-
-    if ($login_success) {
-        // Chuyển hướng đến trang dashboard
-        header('Location: support_dashboard.php');
+    }    if ($login_success) {
+        // Chuyển hướng dựa trên role
+        if ($_SESSION['user']['role'] === 'admin') {
+            header('Location: admin_dashboard.php');
+        } else {
+            header('Location: support_dashboard.php');
+        }
         exit();
     } else {
         // Thông báo lỗi

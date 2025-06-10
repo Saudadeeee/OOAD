@@ -12,13 +12,21 @@ $customer_name = $_SESSION['customer']['ten'];
 <head>
     <meta charset="UTF-8">
     <title>Bảng điều khiển Khách hàng</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
+    <link rel="stylesheet" href="css/style.css">    <style>
         .dashboard-options { text-align: center; }
         .dashboard-options a {
-            display: inline-block; width: 300px; padding: 30px; margin: 15px;
-            font-size: 1.2em; text-decoration: none; background-color: #007bff;
-            color: white; border-radius: 8px; transition: background-color 0.3s;
+            display: inline-block; 
+            width: 350px; 
+            padding: 30px 20px; 
+            margin: 15px;
+            font-size: 1.2em; 
+            text-decoration: none; 
+            background-color: #007bff;
+            color: white; 
+            border-radius: 8px; 
+            transition: background-color 0.3s;
+            box-sizing: border-box;
+            text-align: center;
         }
         .dashboard-options a:hover { background-color: #0056b3; }
         .header-bar { display: flex; justify-content: space-between; align-items: center; }

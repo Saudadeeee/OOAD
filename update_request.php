@@ -19,8 +19,7 @@ $requests = json_decode(file_get_contents($file_path), true);
 foreach ($requests as &$request) {
     if ($request['maYeuCau'] === $request_id) {
         $staff_info = $_SESSION['user'];
-        
-        switch ($action) {
+          switch ($action) {
             case 'update_status':
                 if ($request['trangThai'] === 'Mới tạo') {
                     $request['trangThai'] = 'Đã tiếp nhận';
@@ -35,6 +34,26 @@ foreach ($requests as &$request) {
                     $log_note = [
                         'content' => 'Trạng thái đã được cập nhật thành "Đã tiếp nhận".',
                         'author' => $staff_info['fullname'],
+                        'timestamp' => date('Y-m-d H:i:s')
+                    ];
+                    $request['ghiChu'][] = $log_note;
+                }
+                break;
+
+            case 'admin_update_status':
+                // Admin có thể thay đổi trạng thái bất kỳ lúc nào
+                if ($_SESSION['user']['role'] === 'admin') {
+                    $new_status = $_POST['new_status'];
+                    $old_status = $request['trangThai'];
+                    $request['trangThai'] = $new_status;
+                    
+                    // Thêm ghi chú về việc admin thay đổi trạng thái
+                    if (!isset($request['ghiChu'])) {
+                        $request['ghiChu'] = [];
+                    }
+                    $log_note = [
+                        'content' => "Admin đã thay đổi trạng thái từ \"$old_status\" thành \"$new_status\".",
+                        'author' => $staff_info['fullname'] . ' (Admin)',
                         'timestamp' => date('Y-m-d H:i:s')
                     ];
                     $request['ghiChu'][] = $log_note;

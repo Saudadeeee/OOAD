@@ -215,11 +215,29 @@ if (!empty($selected_request['maKhachHang'])) {
                 <?php endif; ?>
             </div>
             <?php endif; ?>
-        </div>
-
-        <?php if(isset($_SESSION['user'])): ?>
+        </div>        <?php if(isset($_SESSION['user'])): ?>
             <div class="actions-form">
-                <?php if ($selected_request['trangThai'] === 'Mới tạo'): ?>
+                <h3>Hành Động</h3>
+                
+                <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+                    <!-- Admin có thể thay đổi trạng thái bất kỳ lúc nào -->
+                    <h4>Cập nhật trạng thái (Admin)</h4>
+                    <form action="update_request.php" method="POST" style="margin-bottom:20px;">
+                        <input type="hidden" name="request_id" value="<?php echo $selected_request['maYeuCau']; ?>">
+                        <input type="hidden" name="action" value="admin_update_status">
+                        <label for="admin_status">Trạng thái mới:</label>
+                        <select name="new_status" id="admin_status">
+                            <option value="Mới tạo" <?php echo $selected_request['trangThai'] === 'Mới tạo' ? 'selected' : ''; ?>>Mới tạo</option>
+                            <option value="Đã tiếp nhận" <?php echo $selected_request['trangThai'] === 'Đã tiếp nhận' ? 'selected' : ''; ?>>Đã tiếp nhận</option>
+                            <option value="Đang xử lý" <?php echo $selected_request['trangThai'] === 'Đang xử lý' ? 'selected' : ''; ?>>Đang xử lý</option>
+                            <option value="Đã hoàn thành" <?php echo $selected_request['trangThai'] === 'Đã hoàn thành' ? 'selected' : ''; ?>>Đã hoàn thành</option>
+                            <option value="Đã đóng" <?php echo $selected_request['trangThai'] === 'Đã đóng' ? 'selected' : ''; ?>>Đã đóng</option>
+                        </select>
+                        <button type="submit">Cập nhật trạng thái</button>
+                    </form>
+                <?php elseif ($selected_request['trangThai'] === 'Mới tạo'): ?>
+                    <!-- Nhân viên chỉ có thể tiếp nhận yêu cầu mới -->
+                    <h4>Tiếp nhận yêu cầu</h4>
                     <form action="update_request.php" method="POST" style="margin-bottom:20px;">
                         <input type="hidden" name="request_id" value="<?php echo $selected_request['maYeuCau']; ?>">
                         <input type="hidden" name="action" value="update_status">
@@ -227,7 +245,7 @@ if (!empty($selected_request['maKhachHang'])) {
                     </form>
                 <?php endif; ?>
                 
-                <h3>Thêm Ghi chú mới</h3>
+                <h4>Thêm Ghi chú mới</h4>
                 <form action="update_request.php" method="POST">
                     <input type="hidden" name="request_id" value="<?php echo $selected_request['maYeuCau']; ?>">
                     <input type="hidden" name="action" value="add_note">
@@ -235,6 +253,15 @@ if (!empty($selected_request['maKhachHang'])) {
                     <textarea id="note_content" name="note_content" required></textarea>
                     <button type="submit">Thêm ghi chú</button>
                 </form>
+                
+                <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+                    <h4 style="color: #dc3545; margin-top: 30px;">Vùng Nguy Hiểm (Admin)</h4>
+                    <form action="admin_requests.php" method="POST" style="margin-top:15px;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa yêu cầu này? Hành động này không thể hoàn tác.')">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="request_id" value="<?php echo $selected_request['maYeuCau']; ?>">
+                        <button type="submit" style="background: #dc3545;">Xóa yêu cầu này</button>
+                    </form>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>

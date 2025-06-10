@@ -1,13 +1,26 @@
 [
     {
         "username": "admin",
+        "password": "admin123",
+        "fullname": "Quản trị viên hệ thống",
+        "role": "admin"
+    },
+    {
+        "username": "support1",
         "password": "1",
-        "fullname": "An",
+        "fullname": "Nhân viên An",
         "role": "support_staff"
-    }, {
-        "username": "admin2",
+    },
+    {
+        "username": "support2",
         "password": "1",
-        "fullname": "Bình",
+        "fullname": "Nhân viên Bình",
+        "role": "support_staff"
+    },
+    {
+        "username": "hiep",
+        "password": "1",
+        "fullname": "Tống Quang Hiệp",
         "role": "support_staff"
     }
 ]
