@@ -18,5 +18,15 @@
         "chucvu": "IT",
         "sdt": "0394705872",
         "diaChi": "Bách Khoa, Hà Nội"
+    },
+    {
+        "maKhachHang": "KH1749585159",
+        "username": "mjnhpzo",
+        "password_hash": "$2y$10$XkvsVP5XdiKZCTkYnq\/Ed.Ahxy6PafGmHHJIDGAFAe0DoG.HVi0Y.",
+        "ten": "Định Công Mạnh",
+        "tencongty": "CTTNHH Baongu",
+        "chucvu": "Giám Đốc",
+        "sdt": "12039",
+        "diaChi": "36"
     }
 ]

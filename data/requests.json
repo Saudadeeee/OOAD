@@ -1,20 +1,3 @@
 [
-    {
-        "maYeuCau": "YC20250610001",
-        "tenYeuCau": "Lệch Bi",
-        "noiDung": "ABCxyz ",
-        "thoiGianGui": "2025-06-10 18:02:56",
-        "trangThai": "Mới tạo",
-        "thongTinKhachHang": {
-            "maKhachHang": "KH1749550249",
-            "tencongty": "CP Dược phẩm Bách Khoa",
-            "ten": "Kiều Tuấn Định",
-            "chucvu": "IT",
-            "sdt": "0394705872",
-            "diaChi": "Bách Khoa, Hà Nội"
-        },
-        "maKhachHang": "KH1749550249",
-        "ghiChu": [],
-        "nguoiTiepNhan": null
-    }
+    
 ]

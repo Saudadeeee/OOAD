@@ -15,7 +15,6 @@ $action = $_POST['action'];
 $file_path = 'data/requests.json';
 
 $requests = json_decode(file_get_contents($file_path), true);
-
 foreach ($requests as &$request) {
     if ($request['maYeuCau'] === $request_id) {
         $staff_info = $_SESSION['user'];
@@ -36,7 +35,6 @@ foreach ($requests as &$request) {
                     $request['ghiChu'][] = $log_note;
                 }
                 break;
-
             case 'admin_update_status':
                 if ($_SESSION['user']['role'] === 'admin') {
                     $new_status = $_POST['new_status'];
@@ -53,7 +51,6 @@ foreach ($requests as &$request) {
                     $request['ghiChu'][] = $log_note;
                 }
                 break;
-
             case 'add_note':
                 $note_content = trim($_POST['note_content']);
                 if (!empty($note_content)) {
@@ -71,9 +68,7 @@ foreach ($requests as &$request) {
     }
 }
 unset($request); 
-
 file_put_contents($file_path, json_encode($requests, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
 header('Location: request_detail.php?id=' . $request_id);
 exit();
 ?>
