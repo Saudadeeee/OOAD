@@ -1,0 +1,20 @@
+# Phiên bản của cú pháp Docker Compose
+version: '3.8'
+
+# Nơi định nghĩa các dịch vụ (container) của chúng ta
+services:
+  # Tên dịch vụ, bạn có thể đặt tùy ý, ví dụ: app, web, php-server
+  app:
+    # Build image từ Dockerfile trong thư mục hiện tại (.)
+    build: .
+    # Ánh xạ cổng: Bind với tất cả interface (0.0.0.0) để cho phép truy cập từ mạng
+    # Cổng 8080 trên tất cả interface sẽ được ánh xạ vào cổng 80 trong container
+    ports:
+      - "0.0.0.0:8080:80"
+    # Ánh xạ thư mục:
+    # Ánh xạ toàn bộ thư mục dự án hiện tại (.)
+    # vào thư mục /var/www/html bên trong container.
+    # Điều này cho phép bạn chỉnh sửa code trên máy tính của mình
+    # và thấy thay đổi ngay lập tức mà không cần build lại image.
+    volumes:
+      - .:/var/www/html
