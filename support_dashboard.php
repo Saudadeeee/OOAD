@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Bảo vệ trang: Nếu chưa đăng nhập, đá về trang login
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
 
-// Đọc dữ liệu từ file requests.json
 $requests_json = file_get_contents('data/requests.json');
 $requests = json_decode($requests_json, true);
 ?>

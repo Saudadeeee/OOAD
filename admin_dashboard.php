@@ -1,13 +1,11 @@
 <?php
 session_start();
 
-// Kiểm tra quyền admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     header('Location: login.php');
     exit();
 }
 
-// Thống kê tổng quan
 $requests = json_decode(file_get_contents('data/requests.json'), true);
 $customers = json_decode(file_get_contents('data/customers.json'), true);
 $users = json_decode(file_get_contents('data/users.json'), true);
@@ -16,7 +14,6 @@ $total_requests = count($requests);
 $total_customers = count($customers);
 $total_users = count($users);
 
-// Đếm yêu cầu theo trạng thái
 $new_requests = 0;
 $accepted_requests = 0;
 foreach ($requests as $req) {

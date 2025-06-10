@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Nếu đã đăng nhập rồi thì chuyển thẳng đến dashboard
 if (isset($_SESSION['user'])) {
     header('Location: support_dashboard.php');
     exit();
@@ -9,26 +8,23 @@ if (isset($_SESSION['user'])) {
 
 $error_message = '';
  
-// Xử lý khi người dùng gửi form đăng nhập
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username_input = $_POST['username'];
     $password_input = $_POST['password'];
 
-    // Đọc file users.json
     $users_data = file_get_contents('data/users.json');
     $users = json_decode($users_data, true);
 
     $login_success = false;
     foreach ($users as $user) {
-        // Kiểm tra thông tin đăng nhập
         if ($user['username'] === $username_input && $user['password'] === $password_input) {
-            // Đăng nhập thành công, lưu thông tin vào session
+            
             $_SESSION['user'] = $user;
             $login_success = true;
             break;
         }
     }    if ($login_success) {
-        // Chuyển hướng dựa trên role
+       
         if ($_SESSION['user']['role'] === 'admin') {
             header('Location: admin_dashboard.php');
         } else {
@@ -36,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit();
     } else {
-        // Thông báo lỗi
+       
         $error_message = "Tên đăng nhập hoặc mật khẩu không chính xác!";
     }
 }

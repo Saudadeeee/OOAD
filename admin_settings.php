@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Kiểm tra quyền admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     header('Location: login.php');
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 $message = '';
 $message_type = '';
 
-// Xử lý các hành động
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
     
@@ -40,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             break;
             
         case 'reset_demo_data':
-            // Tạo dữ liệu demo
+            
             $demo_requests = [
                 [
                     "maYeuCau" => "YC" . time() . "001",

@@ -381,7 +381,6 @@ $completion_rate = $total_requests > 0 ? round(($completed_requests / $total_req
             }
         });
 
-        // Biểu đồ theo tháng (Line Chart)
         const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
         new Chart(monthlyCtx, {
             type: 'line',
@@ -412,7 +411,7 @@ $completion_rate = $total_requests > 0 ? round(($completed_requests / $total_req
                     }
                 }
             }
-        });        // Hàm xuất dữ liệu
+        });       
         function exportRequests() {
             window.location.href = 'export.php?type=requests';
         }
@@ -426,7 +425,7 @@ $completion_rate = $total_requests > 0 ? round(($completed_requests / $total_req
         }
 
         function exportSummary() {
-            // Tạo dữ liệu tổng hợp CSV
+            
             let csv = 'Loại,Giá trị\n';
             csv += 'Tổng yêu cầu,<?php echo $total_requests; ?>\n';
             csv += 'Tổng khách hàng,<?php echo $total_customers; ?>\n';

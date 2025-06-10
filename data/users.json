@@ -3,24 +3,36 @@
         "username": "admin",
         "password": "admin123",
         "fullname": "Quản trị viên hệ thống",
-        "role": "admin"
+        "role": "admin",
+        "tuoi": 35,
+        "diaChi": "Hà Nội",
+        "vaiTro": "Quản trị viên hệ thống"
     },
     {
         "username": "support1",
         "password": "1",
         "fullname": "Nhân viên An",
-        "role": "support_staff"
+        "role": "support_staff",
+        "tuoi": 28,
+        "diaChi": "Hà Nội",
+        "vaiTro": "Nhân viên hỗ trợ khách hàng"
     },
     {
         "username": "support2",
         "password": "1",
         "fullname": "Nhân viên Bình",
-        "role": "support_staff"
+        "role": "support_staff",
+        "tuoi": 26,
+        "diaChi": "Hồ Chí Minh",
+        "vaiTro": "Nhân viên hỗ trợ khách hàng"
     },
     {
         "username": "hiep",
         "password": "1",
         "fullname": "Tống Quang Hiệp",
-        "role": "support_staff"
+        "role": "support_staff",
+        "tuoi": 24,
+        "diaChi": "Hà Nội",
+        "vaiTro": "Nhân viên hỗ trợ kỹ thuật"
     }
 ]

@@ -21,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $login_success = false;
     foreach ($customers as $customer) {
-        // So sánh username và dùng password_verify để kiểm tra mật khẩu đã băm
+       
         if ($customer['username'] === $username_input && password_verify($password_input, $customer['password_hash'])) {
-            // Lưu toàn bộ thông tin khách hàng vào session
+           
             $_SESSION['customer'] = $customer;
             $login_success = true;
             break;

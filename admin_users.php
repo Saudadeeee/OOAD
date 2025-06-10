@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Kiểm tra quyền admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     header('Location: login.php');
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 $message = '';
 $message_type = '';
 
-// Xử lý các hành động
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
     $users_file = 'data/users.json';
@@ -22,8 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password = trim($_POST['password']);
             $fullname = trim($_POST['fullname']);
             $role = $_POST['role'];
+            $tuoi = (int)$_POST['tuoi'];
+            $diaChi = trim($_POST['diaChi']);
+            $vaiTro = trim($_POST['vaiTro']);
             
-            // Kiểm tra username đã tồn tại
             $exists = false;
             foreach ($users as $user) {
                 if ($user['username'] === $username) {
@@ -35,15 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($exists) {
                 $message = "Tên đăng nhập đã tồn tại!";
                 $message_type = "error";
-            } elseif (empty($username) || empty($password) || empty($fullname)) {
-                $message = "Vui lòng điền đầy đủ thông tin!";
+            } elseif (empty($username) || empty($password) || empty($fullname) || empty($vaiTro)) {
+                $message = "Vui lòng điền đầy đủ thông tin bắt buộc!";
+                $message_type = "error";
+            } elseif ($tuoi < 18 || $tuoi > 70) {
+                $message = "Tuổi phải từ 18 đến 70!";
                 $message_type = "error";
             } else {
                 $new_user = [
                     'username' => $username,
                     'password' => $password,
                     'fullname' => $fullname,
-                    'role' => $role
+                    'role' => $role,
+                    'tuoi' => $tuoi,
+                    'diaChi' => $diaChi,
+                    'vaiTro' => $vaiTro
                 ];
                 $users[] = $new_user;
                 file_put_contents($users_file, json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
@@ -54,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
         case 'delete':
             $username_to_delete = $_POST['username'];
-            // Không cho phép xóa chính mình
+            
             if ($username_to_delete === $_SESSION['user']['username']) {
                 $message = "Không thể xóa tài khoản của chính mình!";
                 $message_type = "error";
@@ -62,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $users = array_filter($users, function($user) use ($username_to_delete) {
                     return $user['username'] !== $username_to_delete;
                 });
-                $users = array_values($users); // Reindex array
+                $users = array_values($users); 
                 file_put_contents($users_file, json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
                 $message = "Xóa nhân viên thành công!";
                 $message_type = "success";
@@ -74,25 +80,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $new_password = trim($_POST['password']);
             $new_fullname = trim($_POST['fullname']);
             $new_role = $_POST['role'];
+            $new_tuoi = (int)$_POST['tuoi'];
+            $new_diaChi = trim($_POST['diaChi']);
+            $new_vaiTro = trim($_POST['vaiTro']);
             
-            foreach ($users as &$user) {
-                if ($user['username'] === $username) {
-                    if (!empty($new_password)) {
-                        $user['password'] = $new_password;
+            if (empty($new_fullname) || empty($new_vaiTro)) {
+                $message = "Vui lòng điền đầy đủ thông tin bắt buộc!";
+                $message_type = "error";
+            } elseif ($new_tuoi < 18 || $new_tuoi > 70) {
+                $message = "Tuổi phải từ 18 đến 70!";
+                $message_type = "error";
+            } else {
+                foreach ($users as &$user) {
+                    if ($user['username'] === $username) {
+                        if (!empty($new_password)) {
+                            $user['password'] = $new_password;
+                        }
+                        $user['fullname'] = $new_fullname;
+                        $user['role'] = $new_role;
+                        $user['tuoi'] = $new_tuoi;
+                        $user['diaChi'] = $new_diaChi;
+                        $user['vaiTro'] = $new_vaiTro;
+                        break;
                     }
-                    $user['fullname'] = $new_fullname;
-                    $user['role'] = $new_role;
-                    break;
                 }
+                file_put_contents($users_file, json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                $message = "Cập nhật thông tin thành công!";
+                $message_type = "success";
             }
-            file_put_contents($users_file, json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-            $message = "Cập nhật thông tin thành công!";
-            $message_type = "success";
             break;
     }
 }
 
-// Đọc lại dữ liệu sau khi cập nhật
 $users = json_decode(file_get_contents('data/users.json'), true);
 ?>
 <!DOCTYPE html>
@@ -220,11 +239,23 @@ $users = json_decode(file_get_contents('data/users.json'), true);
                         <input type="text" id="fullname" name="fullname" required>
                     </div>
                     <div>
-                        <label for="role">Vai trò (*)</label>
+                        <label for="role">Vai trò hệ thống (*)</label>
                         <select id="role" name="role" required>
                             <option value="support_staff">Nhân viên hỗ trợ</option>
                             <option value="admin">Quản trị viên</option>
                         </select>
+                    </div>
+                    <div>
+                        <label for="tuoi">Tuổi (*)</label>
+                        <input type="number" id="tuoi" name="tuoi" min="18" max="70" required>
+                    </div>
+                    <div>
+                        <label for="diaChi">Địa chỉ</label>
+                        <input type="text" id="diaChi" name="diaChi">
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <label for="vaiTro">Mô tả vai trò (*)</label>
+                        <input type="text" id="vaiTro" name="vaiTro" placeholder="VD: Nhân viên hỗ trợ khách hàng, Nhân viên hỗ trợ kỹ thuật..." required>
                     </div>
                 </div>
                 <button type="submit" class="btn">Thêm Nhân Viên</button>
@@ -237,7 +268,7 @@ $users = json_decode(file_get_contents('data/users.json'), true);
                 <thead>
                     <tr>
                         <th>Tên đăng nhập</th>
-                        <th>Họ và tên</th>
+                        <th>Thông tin cá nhân</th>
                         <th>Vai trò</th>
                         <th>Hành động</th>
                     </tr>
@@ -246,11 +277,22 @@ $users = json_decode(file_get_contents('data/users.json'), true);
                     <?php foreach ($users as $user): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($user['username']); ?></td>
-                        <td><?php echo htmlspecialchars($user['fullname']); ?></td>
-                        <td><?php echo $user['role'] === 'admin' ? 'Quản trị viên' : 'Nhân viên hỗ trợ'; ?></td>
+                        <td>
+                            <div><strong><?php echo htmlspecialchars($user['fullname']); ?></strong></div>
+                            <div style="font-size: 0.9em; color: #666;">
+                                Tuổi: <?php echo $user['tuoi'] ?? 'N/A'; ?>
+                                <?php if (!empty($user['diaChi'])): ?>
+                                    | <?php echo htmlspecialchars($user['diaChi']); ?>
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                        <td>
+                            <div><?php echo $user['role'] === 'admin' ? 'Quản trị viên' : 'Nhân viên hỗ trợ'; ?></div>
+                            <div style="font-size: 0.9em; color: #666;"><?php echo htmlspecialchars($user['vaiTro'] ?? ''); ?></div>
+                        </td>
                         <td>
                             <div class="action-buttons">
-                                <button onclick="editUser('<?php echo $user['username']; ?>', '<?php echo htmlspecialchars($user['fullname']); ?>', '<?php echo $user['role']; ?>')" class="btn-small btn-edit">Sửa</button>
+                                <button onclick="editUser('<?php echo $user['username']; ?>', '<?php echo htmlspecialchars($user['fullname']); ?>', '<?php echo $user['role']; ?>', <?php echo $user['tuoi'] ?? 25; ?>, '<?php echo htmlspecialchars($user['diaChi'] ?? ''); ?>', '<?php echo htmlspecialchars($user['vaiTro'] ?? ''); ?>')" class="btn-small btn-edit">Sửa</button>
                                 <?php if ($user['username'] !== $_SESSION['user']['username']): ?>
                                 <form method="POST" style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa nhân viên này?')">
                                     <input type="hidden" name="action" value="delete">
@@ -282,11 +324,20 @@ $users = json_decode(file_get_contents('data/users.json'), true);
                 <label for="edit_password">Mật khẩu mới (để trống nếu không đổi)</label>
                 <input type="password" id="edit_password" name="password">
                 
-                <label for="edit_role">Vai trò (*)</label>
+                <label for="edit_role">Vai trò hệ thống (*)</label>
                 <select id="edit_role" name="role" required>
                     <option value="support_staff">Nhân viên hỗ trợ</option>
                     <option value="admin">Quản trị viên</option>
                 </select>
+                
+                <label for="edit_tuoi">Tuổi (*)</label>
+                <input type="number" id="edit_tuoi" name="tuoi" min="18" max="70" required>
+                
+                <label for="edit_diaChi">Địa chỉ</label>
+                <input type="text" id="edit_diaChi" name="diaChi">
+                
+                <label for="edit_vaiTro">Mô tả vai trò (*)</label>
+                <input type="text" id="edit_vaiTro" name="vaiTro" required>
                 
                 <button type="submit" class="btn">Cập nhật</button>
             </form>
@@ -297,10 +348,13 @@ $users = json_decode(file_get_contents('data/users.json'), true);
         const modal = document.getElementById('editModal');
         const span = document.getElementsByClassName('close')[0];
 
-        function editUser(username, fullname, role) {
+        function editUser(username, fullname, role, tuoi, diaChi, vaiTro) {
             document.getElementById('edit_username').value = username;
             document.getElementById('edit_fullname').value = fullname;
             document.getElementById('edit_role').value = role;
+            document.getElementById('edit_tuoi').value = tuoi;
+            document.getElementById('edit_diaChi').value = diaChi;
+            document.getElementById('edit_vaiTro').value = vaiTro;
             modal.style.display = 'block';
         }
 

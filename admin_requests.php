@@ -322,7 +322,6 @@ foreach ($requests as $req) {
         </div>
     </div>
 
-    <!-- Modal sửa trạng thái -->
     <div id="statusModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -383,7 +382,7 @@ foreach ($requests as $req) {
         }
 
         function exportData() {
-            // Tạo dữ liệu CSV đơn giản
+          
             let csv = 'Mã YC,Tiêu đề,Khách hàng,Thời gian,Trạng thái,Người tiếp nhận\n';
             const rows = document.querySelectorAll('.request-row');
             
@@ -400,7 +399,6 @@ foreach ($requests as $req) {
                 csv += data.map(field => '"' + field.replace(/"/g, '""') + '"').join(',') + '\n';
             });
             
-            // Tải file
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);

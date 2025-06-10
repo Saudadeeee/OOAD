@@ -5,16 +5,13 @@ if (!isset($_SESSION['user']) && !isset($_SESSION['customer'])) {
     header('Location: login_selection.php');
     exit();
 }
-
 if (!isset($_GET['id'])) {
     header('Location: support_dashboard.php');
     exit();
 }
-
 $request_id = $_GET['id'];
 $selected_request = null;
 $customer_details = null;
-
 $requests = json_decode(file_get_contents('data/requests.json'), true);
 foreach ($requests as $req) {
     if ($req['maYeuCau'] === $request_id) {
@@ -28,7 +25,6 @@ if ($selected_request === null) {
     exit();
 }
 
-// Lấy thông tin khách hàng (logic cũ vẫn đúng)
 if (!empty($selected_request['maKhachHang'])) {
     $customers = json_decode(file_get_contents('data/customers.json'), true);
     foreach ($customers as $customer) {
@@ -49,7 +45,6 @@ if (!empty($selected_request['maKhachHang'])) {
     <title>Chi Tiết Yêu Cầu - <?php echo htmlspecialchars($selected_request['maYeuCau']); ?></title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Bố cục chính */
         .detail-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -57,7 +52,6 @@ if (!empty($selected_request['maKhachHang'])) {
             margin-top: 20px;
         }
 
-        /* Thiết kế thẻ Card */
         .card {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
@@ -86,7 +80,6 @@ if (!empty($selected_request['maKhachHang'])) {
             word-break: break-word;
         }
 
-        /* Timeline cho trạng thái */
         .timeline { list-style: none; padding: 0; }
         .timeline-item { position: relative; padding-bottom: 20px; padding-left: 30px; border-left: 2px solid #e0e0e0; }
         .timeline-item::before {
@@ -102,8 +95,7 @@ if (!empty($selected_request['maKhachHang'])) {
         .timeline-item.completed::before { background-color: #28a745; border: 3px solid #fff; box-shadow: 0 0 0 2px #28a745; }
         .timeline-item .time { font-size: 0.9em; color: #777; }
         
-        /* Ghi chú và hành động */
-        .notes-section { grid-column: 1 / -1; } /* Trải dài toàn bộ chiều rộng */
+        .notes-section { grid-column: 1 / -1; } 
         .note { background-color: #f9f9f9; border-left: 4px solid #007bff; padding: 15px; margin-bottom: 15px; border-radius: 4px; }
         .note .author { font-weight: bold; }
         .note .timestamp { font-size: 0.9em; color: #777; }
@@ -162,7 +154,6 @@ if (!empty($selected_request['maKhachHang'])) {
                         <li class="timeline-item completed">
                             <strong>Đã được tiếp nhận</strong>
                             <?php 
-                                // Tìm thời gian tiếp nhận trong ghi chú
                                 $reception_time = '';
                                 foreach ($selected_request['ghiChu'] as $note) {
                                     if (strpos($note['content'], 'Trạng thái đã được cập nhật') !== false) {

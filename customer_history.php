@@ -11,9 +11,8 @@ $my_requests = [];
 
 $all_requests = json_decode(file_get_contents('data/requests.json'), true);
 
-// Lọc ra các yêu cầu của khách hàng này
 foreach ($all_requests as $request) {
-    // Kiểm tra cả mã khách hàng và thông tin nhúng để tương thích ngược
+   
     if ((isset($request['maKhachHang']) && $request['maKhachHang'] === $customer_id) ||
         (isset($request['thongTinKhachHang']['maKhachHang']) && $request['thongTinKhachHang']['maKhachHang'] === $customer_id))
     {

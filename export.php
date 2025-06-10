@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Kiểm tra quyền admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     http_response_code(403);
     echo "Bạn không có quyền truy cập trang này.";
@@ -23,7 +22,6 @@ switch ($type) {
         $requests = json_decode(file_get_contents('data/requests.json'), true);
         $customers = json_decode(file_get_contents('data/customers.json'), true);
         
-        // Tạo map khách hàng
         $customer_map = [];
         foreach ($customers as $customer) {
             $customer_map[$customer['maKhachHang']] = $customer;
@@ -71,7 +69,6 @@ switch ($type) {
         $customers = json_decode(file_get_contents('data/customers.json'), true);
         $requests = json_decode(file_get_contents('data/requests.json'), true);
         
-        // Đếm số yêu cầu của mỗi khách hàng
         $customer_request_count = [];
         foreach ($requests as $request) {
             $customer_id = null;
@@ -111,7 +108,6 @@ switch ($type) {
         $users = json_decode(file_get_contents('data/users.json'), true);
         $requests = json_decode(file_get_contents('data/requests.json'), true);
         
-        // Đếm số yêu cầu đã xử lý của mỗi nhân viên
         $staff_request_count = [];
         foreach ($requests as $request) {
             if (isset($request['nguoiTiepNhan']['username'])) {
@@ -123,7 +119,7 @@ switch ($type) {
             }
         }
         
-        $csv_content = "Tên Đăng Nhập,Họ Tên,Vai Trò,Số Yêu Cầu Đã Xử Lý\n";
+        $csv_content = "Tên Đăng Nhập,Họ Tên,Vai Trò Hệ Thống,Mô Tả Vai Trò,Tuổi,Địa Chỉ,Số Yêu Cầu Đã Xử Lý\n";
         
         foreach ($users as $user) {
             $request_count = $staff_request_count[$user['username']] ?? 0;
@@ -132,6 +128,9 @@ switch ($type) {
             $csv_content .= '"' . str_replace('"', '""', $user['username']) . '",';
             $csv_content .= '"' . str_replace('"', '""', $user['fullname']) . '",';
             $csv_content .= '"' . str_replace('"', '""', $role_name) . '",';
+            $csv_content .= '"' . str_replace('"', '""', $user['vaiTro'] ?? '') . '",';
+            $csv_content .= '"' . str_replace('"', '""', $user['tuoi'] ?? '') . '",';
+            $csv_content .= '"' . str_replace('"', '""', $user['diaChi'] ?? '') . '",';
             $csv_content .= $request_count;
             $csv_content .= "\n";
         }
@@ -142,13 +141,11 @@ switch ($type) {
         exit();
 }
 
-// Gửi file CSV
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 
-// Thêm BOM để Excel hiển thị UTF-8 đúng
 echo "\xEF\xBB\xBF";
 echo $csv_content;
 exit();

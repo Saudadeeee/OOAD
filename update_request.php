@@ -9,7 +9,7 @@ if (!isset($_SESSION['user'])) {
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['request_id']) || !isset($_POST['action'])) {
     header('Location: support_dashboard.php');
     exit();
-}
+} 
 $request_id = $_POST['request_id'];
 $action = $_POST['action'];
 $file_path = 'data/requests.json';
@@ -23,9 +23,6 @@ foreach ($requests as &$request) {
             case 'update_status':
                 if ($request['trangThai'] === 'Mới tạo') {
                     $request['trangThai'] = 'Đã tiếp nhận';
-                    
-                    // *** NÂNG CẤP QUAN TRỌNG ***
-                    // Lưu lại toàn bộ thông tin nhân viên đã tiếp nhận
                     $request['nguoiTiepNhan'] = [
                         'username' => $staff_info['username'],
                         'fullname' => $staff_info['fullname']
@@ -41,13 +38,10 @@ foreach ($requests as &$request) {
                 break;
 
             case 'admin_update_status':
-                // Admin có thể thay đổi trạng thái bất kỳ lúc nào
                 if ($_SESSION['user']['role'] === 'admin') {
                     $new_status = $_POST['new_status'];
                     $old_status = $request['trangThai'];
                     $request['trangThai'] = $new_status;
-                    
-                    // Thêm ghi chú về việc admin thay đổi trạng thái
                     if (!isset($request['ghiChu'])) {
                         $request['ghiChu'] = [];
                     }

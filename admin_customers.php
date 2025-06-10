@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Kiểm tra quyền admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     header('Location: login.php');
     exit();
@@ -10,19 +9,15 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 $message = '';
 $message_type = '';
 
-// Xử lý xóa khách hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'delete') {
     $customer_id = $_POST['customer_id'];
     $customers_file = 'data/customers.json';
     $customers = json_decode(file_get_contents($customers_file), true);
     
-    // Xóa khách hàng
     $customers = array_filter($customers, function($customer) use ($customer_id) {
         return $customer['maKhachHang'] !== $customer_id;
     });
     $customers = array_values($customers);
-    
-    // Cũng cần xóa hoặc cập nhật các yêu cầu liên quan
     $requests_file = 'data/requests.json';
     if (file_exists($requests_file)) {
         $requests = json_decode(file_get_contents($requests_file), true);
@@ -39,10 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'delete') {
     $message_type = "success";
 }
 
-// Đọc dữ liệu khách hàng
 $customers = json_decode(file_get_contents('data/customers.json'), true);
 
-// Đọc dữ liệu yêu cầu để đếm số yêu cầu của mỗi khách hàng
 $requests = json_decode(file_get_contents('data/requests.json'), true);
 $customer_request_count = [];
 foreach ($requests as $request) {

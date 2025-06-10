@@ -12,11 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
     $tenYeuCau = htmlspecialchars($_POST['ten_yeucau']);
     $noiDungYeuCau = htmlspecialchars($_POST['noidung_yeucau']);
-
-    // Lấy mã khách hàng từ session (nếu đã đăng nhập) hoặc từ form (nếu là khách vãng lai)
     $maKhachHang = $_POST['makh'] ?? null;
-    
-    // Kiểm tra tính hợp lệ
     if (empty($ten)|| empty($sdt) || empty($tenYeuCau) || empty($noiDungYeuCau)) {
         $_SESSION['message'] = ['type' => 'error', 'text' => 'Lỗi: Vui lòng điền đầy đủ các trường có dấu (*).'];
         header('Location: index.php');
@@ -25,9 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $khachHang = new KhachHang($maKhachHang, $tencongty, $ten, $chucvu,  $sdt, $diaChi);
     $yeuCau = new YeuCau($tenYeuCau, $noiDungYeuCau, $khachHang);
-    
-    // Nếu khách hàng đã đăng nhập, chúng ta chỉ cần lưu mã của họ trong yêu cầu
-    // Điều này giúp chuẩn hóa dữ liệu
     if (isset($_SESSION['customer'])) {
         $yeuCau->maKhachHang = $_SESSION['customer']['maKhachHang'];
     }

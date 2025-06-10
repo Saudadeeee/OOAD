@@ -1,37 +1,10 @@
 [
     {
-        "maYeuCau": "YC1749544951",
-        "tenYeuCau": "An ninh mạng",
-        "noiDung": "Cần hỗ trợ xyz",
-        "thoiGianGui": "2025-06-10 08:42:31",
-        "trangThai": "Đã tiếp nhận",
-        "thongTinKhachHang": {
-            "maKhachHang": "KH1749544891",
-            "tencongty": "Hust",
-            "ten": "Hoàng Nguyên Bảo",
-            "chucvu": "Nhân viên",
-            "sdt": "123456789",
-            "diaChi": "Hà Nội"
-        },
-        "maKhachHang": "KH1749544891",
-        "ghiChu": [
-            {
-                "content": "Trạng thái đã được cập nhật thành \"Đã tiếp nhận\".",
-                "author": "Nhân viên An",
-                "timestamp": "2025-06-10 10:09:19"
-            }
-        ],
-        "nguoiTiepNhan": {
-            "username": "support1",
-            "fullname": "Nhân viên An"
-        }
-    },
-    {
-        "maYeuCau": "YC1749550359",
-        "tenYeuCau": "Yêu cầu tư vấn xây dựng, triển khai các hệ thống thông tin y tế, phần mềm quản lý bệnh viện, bệnh án điện tử.",
-        "noiDung": "Tôi cần hỗ trợ ...",
-        "thoiGianGui": "2025-06-10 10:12:39",
-        "trangThai": "Đã tiếp nhận",
+        "maYeuCau": "YC20250610001",
+        "tenYeuCau": "Lệch Bi",
+        "noiDung": "ABCxyz ",
+        "thoiGianGui": "2025-06-10 18:02:56",
+        "trangThai": "Mới tạo",
         "thongTinKhachHang": {
             "maKhachHang": "KH1749550249",
             "tencongty": "CP Dược phẩm Bách Khoa",
@@ -41,48 +14,7 @@
             "diaChi": "Bách Khoa, Hà Nội"
         },
         "maKhachHang": "KH1749550249",
-        "ghiChu": [
-            {
-                "content": "Trạng thái đã được cập nhật thành \"Đã tiếp nhận\".",
-                "author": "Nhân viên Bình",
-                "timestamp": "2025-06-10 10:13:05"
-            }
-        ],
-        "nguoiTiepNhan": {
-            "username": "support2",
-            "fullname": "Nhân viên Bình"
-        }
-    },
-    {
-        "maYeuCau": "YC1749574404",
-        "tenYeuCau": "Yêu cầu hỗ trợ tổ chức đào tạo bồi dưỡng cán bộ quản lý dữ liệu y tế",
-        "noiDung": "Công ty tôi đang trong giai chuyển đổi số, thay vì dữ liệu kiểu cũ, tôi cũng muốn được đồng bộ lên hệ thống....\r\n",
-        "thoiGianGui": "2025-06-10 16:53:24",
-        "trangThai": "Đã tiếp nhận",
-        "thongTinKhachHang": {
-            "maKhachHang": "KH1749550249",
-            "tencongty": "CP Dược phẩm Bách Khoa",
-            "ten": "Kiều Tuấn Định",
-            "chucvu": "IT",
-            "sdt": "0394705872",
-            "diaChi": "Bách Khoa, Hà Nội"
-        },
-        "maKhachHang": "KH1749550249",
-        "ghiChu": [
-            {
-                "content": "Trạng thái đã được cập nhật thành \"Đã tiếp nhận\".",
-                "author": "Nhân viên An",
-                "timestamp": "2025-06-10 16:54:20"
-            },
-            {
-                "content": "Bồi dưỡng và đào tạo",
-                "author": "Nhân viên An",
-                "timestamp": "2025-06-10 16:55:43"
-            }
-        ],
-        "nguoiTiepNhan": {
-            "username": "support1",
-            "fullname": "Nhân viên An"
-        }
+        "ghiChu": [],
+        "nguoiTiepNhan": null
     }
 ]
